@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object|default:"Create Venue" }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">{% if object %}Edit Venue{% else %}Create Venue{% endif %}</h1>
+
+    <div class="bg-white shadow-md rounded p-6">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Venue Name Field -->
+            <div>
+                <label for="id_name" class="block text-sm font-medium text-gray-700">Venue Name</label>
+                <input type="text" name="name" id="id_name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.name.value|default_if_none:'' }}">
+                {% if form.name.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.name.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Venue Location Field -->
+            <div>
+                <label for="id_location" class="block text-sm font-medium text-gray-700">Location</label>
+                <input type="text" name="address" id="id_location" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.location.value|default_if_none:'' }}">
+                {% if form.location.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.location.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Venue Capacity Field -->
+            <div>
+                <label for="id_capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
+                <input type="number" name="capacity" id="id_capacity" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.capacity.value|default_if_none:'' }}">
+                {% if form.capacity.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.capacity.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    {% if object %}Update Venue{% else %}Create Venue{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

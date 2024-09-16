@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
+    <section class="mb-6 p-4 bg-white shadow rounded-lg">
+        <h2 class="text-xl font-semibold mb-4">Overview</h2>
+        <p class="text-gray-700">Total Events: <span class="font-bold">{{ event_count }}</span></p>
+        <p class="text-gray-700">Total Attendees: <span class="font-bold">{{ attendee_count }}</span></p>
+        <p class="text-gray-700">Total Tickets Sold: <span class="font-bold">{{ ticket_count }}</span></p>
+    </section>
+
+    <section class="mb-6 p-4 bg-white shadow rounded-lg">
+        <h2 class="text-xl font-semibold mb-4">Upcoming Events</h2>
+        <ul class="list-disc list-inside">
+            {% for event in upcoming_events %}
+                <li class="mb-2">
+                    <strong class="text-blue-600">{{ event.title }}</strong><br>
+                    <span class="text-gray-600">{{ event.start_time }}</span> - 
+                    <span class="text-gray-600">{{ event.organizer }}</span>
+                </li>
+            {% empty %}
+                <li class="text-gray-500">No upcoming events</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="mb-6 p-4 bg-white shadow rounded-lg">
+        <h2 class="text-xl font-semibold mb-4">Recent Tickets</h2>
+        <ul class="list-disc list-inside">
+            {% for ticket in recent_tickets %}
+                <li class="mb-2">
+                    {{ ticket.ticket_type }} - <strong class="text-blue-600">{{ ticket.attendee.username }}</strong> for <strong class="text-blue-600">{{ ticket.event.title }}</strong><br>
+                    <span class="text-gray-600">Purchased on: {{ ticket.created_at }}</span>
+                </li>
+            {% empty %}
+                <li class="text-gray-500">No recent tickets</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="p-4 bg-white shadow rounded-lg">
+        <h2 class="text-xl font-semibold mb-4">Events in the Past Month</h2>
+        <p class="text-gray-700 text-lg">{{ events_past_month_count }}</p>
+    </section>
+</div>
+{% endblock %}

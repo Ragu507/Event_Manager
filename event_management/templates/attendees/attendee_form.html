@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Attendee{% else %}Add Attendee{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">{% if object %}Edit Attendee{% else %}Add Attendee{% endif %}</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- User Field -->
+            <div>
+                <label for="id_user" class="block text-sm font-medium text-gray-700">User</label>
+                <select name="user" id="id_user" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for user in form.user.field.queryset %}
+                        <option value="{{ user.pk }}" {% if user.pk == form.user.value %}selected{% endif %}>{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.user.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.user.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Event Field -->
+            <div>
+                <label for="id_event" class="block text-sm font-medium text-gray-700">Event</label>
+                <select name="event" id="id_event" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for event in form.event.field.queryset %}
+                        <option value="{{ event.pk }}" {% if event.pk == form.event.value %}selected{% endif %}>{{ event.title }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.event.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.event.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Checked In Field -->
+            <div>
+                <label for="id_checked_in" class="inline-flex items-center">
+                    <input type="checkbox" name="checked_in" id="id_checked_in" class="form-checkbox h-5 w-5 text-blue-600" {% if form.checked_in.value %}checked{% endif %}>
+                    <span class="ml-2 text-sm font-medium text-gray-700">Checked In</span>
+                </label>
+                {% if form.checked_in.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.checked_in.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    {% if object %}Update Attendee{% else %}Add Attendee{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

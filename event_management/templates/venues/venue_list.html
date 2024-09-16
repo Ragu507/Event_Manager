@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Venues{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">Venues</h1>
+
+    <div class="flex justify-end mb-4">
+        <a href="{% url 'venue-create' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add New Venue</a>
+    </div>
+
+    <div class="bg-white shadow-md rounded my-6">
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-800 text-white">
+                    <th class="py-3 px-6 text-left">Venue Name</th>
+                    <th class="py-3 px-6 text-left">Location</th>
+                    <th class="py-3 px-6 text-left">Capacity</th>
+                    <th class="py-3 px-6 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                {% for venue in object_list %}
+                    <tr class="border-b">
+                        <td class="py-3 px-6">{{ venue.name }}</td>
+                        <td class="py-3 px-6">{{ venue.location }}</td>
+                        <td class="py-3 px-6">{{ venue.capacity }}</td>
+                        <td class="py-3 px-6">
+                            <a href="{% url 'venue-detail' venue.pk %}" class="text-blue-500 hover:text-blue-700">View</a>
+                            <a href="{% url 'venue-update' venue.pk %}" class="text-green-500 hover:text-green-700 ml-2">Edit</a>
+                            <a href="{% url 'venue-delete' venue.pk %}" class="text-red-500 hover:text-red-700 ml-2">Delete</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-3 px-6">No venues found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

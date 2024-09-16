@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Ticket{% else %}Create Ticket{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">{% if object %}Edit Ticket{% else %}Create Ticket{% endif %}</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Event Field -->
+            <div>
+                <label for="id_event" class="block text-sm font-medium text-gray-700">Event</label>
+                <select name="event" id="id_event" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for event in form.event.field.queryset %}
+                        <option value="{{ event.pk }}" {% if event.pk == form.event.value %}selected{% endif %}>{{ event.title }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.event.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.event.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Attendee Field -->
+            <div>
+                <label for="id_attendee" class="block text-sm font-medium text-gray-700">Attendee</label>
+                <select name="attendee" id="id_attendee" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for attendee in form.attendee.field.queryset %}
+                        <option value="{{ attendee.pk }}" {% if attendee.pk == form.attendee.value %}selected{% endif %}>{{ attendee.username }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.attendee.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.attendee.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Ticket Type Field -->
+            <div>
+                <label for="id_ticket_type" class="block text-sm font-medium text-gray-700">Ticket Type</label>
+                <input type="text" name="ticket_type" id="id_ticket_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.ticket_type.value|default_if_none:'' }}">
+                {% if form.ticket_type.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.ticket_type.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Price Field -->
+            <div>
+                <label for="id_price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" step="0.01" name="price" id="id_price" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.price.value|default_if_none:'' }}">
+                {% if form.price.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.price.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    {% if object %}Update Ticket{% else %}Create Ticket{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

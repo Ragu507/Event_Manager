@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Detail{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">{{ object.name }}</h1>
+
+    <div class="bg-white shadow-md rounded p-6">
+        <p><strong>Date:</strong> {{ object.date }}</p>
+        <p><strong>Venue:</strong> {{ object.venue.name }}</p>
+        <p><strong>Description:</strong> {{ object.description }}</p>
+
+        <div class="flex justify-end mt-4">
+            <a href="{% url 'event-update' object.pk %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2">Edit</a>
+            <a href="{% url 'event-delete' object.pk %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

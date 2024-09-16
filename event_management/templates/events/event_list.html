@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">Events</h1>
+
+    <div class="flex justify-end mb-4">
+        <a href="{% url 'event-create' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create New Event</a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-x-auto">
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-800 text-white text-left">
+                    <th class="py-3 px-6">Event Title</th>
+                    <th class="py-3 px-6">Start Time</th>
+                    <th class="py-3 px-6">Venue</th>
+                    <th class="py-3 px-6">Organizer</th>
+                    <th class="py-3 px-6">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                {% for event in object_list %}
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="py-3 px-6">{{ event.title }}</td>
+                        <td class="py-3 px-6">{{ event.start_time|date:"M d, Y H:i" }}</td>
+                        <td class="py-3 px-6">{{ event.venue.name }}</td>
+                        <td class="py-3 px-6">{{ event.organizer.username }}</td>
+                        <td class="py-3 px-6">
+                            <a href="{% url 'event-detail' event.pk %}" class="text-blue-500 hover:text-blue-700">View</a>
+                            <a href="{% url 'event-update' event.pk %}" class="text-green-500 hover:text-green-700 ml-2">Edit</a>
+                            <a href="{% url 'event-delete' event.pk %}" class="text-red-500 hover:text-red-700 ml-2">Delete</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-3 px-6 text-gray-500">No events found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

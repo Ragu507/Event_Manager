@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Event{% else %}Create Event{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">{% if object %}Edit Event{% else %}Create Event{% endif %}</h1>
+
+    <div class="bg-white shadow-md rounded p-6">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Event Title -->
+            <div>
+                <label for="id_title" class="block text-sm font-medium text-gray-700">Event Title</label>
+                <input type="text" name="title" id="id_title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.title.value|default_if_none:'' }}">
+                {% if form.title.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.title.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Event Description -->
+            <div>
+                <label for="id_description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="id_description" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">{{ form.description.value|default_if_none:'' }}</textarea>
+                {% if form.description.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.description.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Venue -->
+            <div>
+                <label for="id_venue" class="block text-sm font-medium text-gray-700">Venue</label>
+                <select name="venue" id="id_venue" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for venue in form.venue.field.queryset %}
+                        <option value="{{ venue.pk }}" {% if venue.pk == form.venue.value %}selected{% endif %}>{{ venue.name }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.venue.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.venue.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Start Time -->
+            <div>
+                <label for="id_start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
+                <input type="datetime-local" name="start_time" id="id_start_time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.start_time.value|default_if_none:'' }}">
+                {% if form.start_time.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.start_time.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- End Time -->
+            <div>
+                <label for="id_end_time" class="block text-sm font-medium text-gray-700">End Time</label>
+                <input type="datetime-local" name="end_time" id="id_end_time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.end_time.value|default_if_none:'' }}">
+                {% if form.end_time.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.end_time.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Organizer -->
+            <div>
+                <label for="id_organizer" class="block text-sm font-medium text-gray-700">Organizer</label>
+                <select name="organizer" id="id_organizer" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    {% for organizer in form.organizer.field.queryset %}
+                        <option value="{{ organizer.pk }}" {% if organizer.pk == form.organizer.value %}selected{% endif %}>{{ organizer.username }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.organizer.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.organizer.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Maximum Attendees -->
+            <div>
+                <label for="id_max_attendees" class="block text-sm font-medium text-gray-700">Maximum Attendees</label>
+                <input type="number" name="max_attendees" id="id_max_attendees" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.max_attendees.value|default_if_none:'' }}">
+                {% if form.max_attendees.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.max_attendees.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    {% if object %}Update Event{% else %}Create Event{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

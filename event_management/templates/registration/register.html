@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">Register</h1>
+
+    <div class="bg-white shadow-md rounded p-6 max-w-lg mx-auto">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div>
+                <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" name="username" id="id_username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.username.value|default_if_none:'' }}">
+                {% if form.username.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.username.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Email Field -->
+            <div>
+                <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" name="email" id="id_email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="{{ form.email.value|default_if_none:'' }}">
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.email.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

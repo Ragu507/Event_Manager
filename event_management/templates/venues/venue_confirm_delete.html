@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Venue{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">Delete Venue</h1>
+
+    <div class="bg-white shadow-md rounded p-6">
+        <p>Are you sure you want to delete the venue "{{ object.name }}"?</p>
+
+        <div class="flex justify-end mt-4">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+            </form>
+            <a href="{% url 'venue-list' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-4">Cancel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

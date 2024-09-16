@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendees{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-6">
+    <h1 class="text-3xl font-bold mb-4">Attendees</h1>
+
+    <div class="flex justify-end mb-4">
+        <a href="{% url 'attendee-create' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add New Attendee</a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-x-auto">
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-800 text-white text-left">
+                    <th class="py-3 px-6">User</th>
+                    <th class="py-3 px-6">Event</th>
+                    <th class="py-3 px-6">Checked In</th>
+                    <th class="py-3 px-6">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+                {% for attendee in attendees %}
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="py-3 px-6">{{ attendee.user.username }}</td>
+                        <td class="py-3 px-6">{{ attendee.event.title }}</td>
+                        <td class="py-3 px-6">{{ attendee.checked_in|yesno:"Yes,No" }}</td>
+                        <td class="py-3 px-6">
+                            <a href="{% url 'attendee-update' attendee.pk %}" class="text-green-500 hover:text-green-700">Edit</a>
+                            <a href="{% url 'attendee-delete' attendee.pk %}" class="text-red-500 hover:text-red-700 ml-2">Delete</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-3 px-6 text-gray-500">No attendees found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
