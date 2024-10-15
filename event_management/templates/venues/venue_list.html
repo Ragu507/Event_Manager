@@ -24,7 +24,7 @@
                 {% for venue in object_list %}
                     <tr class="border-b">
                         <td class="py-3 px-6">{{ venue.name }}</td>
-                        <td class="py-3 px-6">{{ venue.location }}</td>
+                        <td class="py-3 px-6">{{ venue.address }}</td>
                         <td class="py-3 px-6">{{ venue.capacity }}</td>
                         <td class="py-3 px-6">
                             <a href="{% url 'venue-detail' venue.pk %}" class="text-blue-500 hover:text-blue-700">View</a>
